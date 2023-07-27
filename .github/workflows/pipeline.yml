@@ -3,8 +3,11 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - master
-      # note that your "main" branch might be called main instead of master
+      - master# note that your "main" branch might be called main instead of master
+  
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize] 
 
 jobs:
   simple_deployment_pipeline:
@@ -30,6 +33,7 @@ jobs:
           wait-on: http://localhost:5001
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly
+        if: ${{ github.event_name == 'push' }}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
