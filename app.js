@@ -6,8 +6,9 @@ const PORT = process.env.PORT || 5001
 
 app.use(express.static('dist'))
 
+// eslint-disable-next-line no-unused-vars
 app.get('/health', (req, res) => {
-  res.send('ok')
+  throw 'error...'
 })
 
 app.get('/version', (req, res) => {
