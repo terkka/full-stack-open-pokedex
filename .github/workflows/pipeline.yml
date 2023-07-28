@@ -37,6 +37,21 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Discord Webhook Notify - Success
+        if: ${{ steps.deploy.outcome == 'success' && github.event_name == 'push'}}
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: info
+          details: Deployment successful
+      - name: Discord Webhook Notify - Failure
+        if: ${{ steps.deploy.outcome != 'success' && github.event_name == 'push'}}
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: error
+          details: Deployment failed    
+        
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
