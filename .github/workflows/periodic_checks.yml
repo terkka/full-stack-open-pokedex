@@ -4,11 +4,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-  push:
-    branches:
-      - master
-      - erkan-branch
-
 jobs:
   healt-checks:
     runs-on: ubuntu-20.04
@@ -18,7 +13,7 @@ jobs:
         uses: Jtalk/url-health-check-action@v3.1
         with:
           # Check the following URLs one by one sequentially
-          url: https://ancient-resonance-9419.fly.dev/health1
+          url: https://ancient-resonance-9419.fly.dev/health
           # Fail this action after this many failed attempts
           max-attempts: 3 # Optional, defaults to 1
           # Delay between retries

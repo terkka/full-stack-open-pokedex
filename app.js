@@ -10,11 +10,6 @@ app.get('/health', (req, res) => {
   res.send('ok')
 })
 
-// eslint-disable-next-line no-unused-vars
-app.get('/health1', (req, res) => {
-  throw 'error...'
-})
-
 app.get('/version', (req, res) => {
   res.send('1000v')
 })
