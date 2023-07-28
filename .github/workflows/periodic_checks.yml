@@ -4,11 +4,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-  push:
-    branches:
-      - master
-      - erkan-branch
-
 jobs:
   healt-checks:
     runs-on: ubuntu-20.04
