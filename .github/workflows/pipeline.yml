@@ -37,8 +37,6 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - run:
-          echo ${{ steps.deploy.outcome }}
       - name: Discord Webhook Notify - Success
         if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v1.0.4
@@ -59,10 +57,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: commits
-        env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
         uses: anothrNick/github-tag-action@1.67.0
