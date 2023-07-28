@@ -33,19 +33,19 @@ jobs:
           wait-on: http://localhost:5001
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
+        if: ${{ github.event_name == 'push' }}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
       - name: Discord Webhook Notify - Success
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' }}
         uses: rjstone/discord-webhook-notify@v1.0.4
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
           severity: info
           details: Deployment successful
       - name: Discord Webhook Notify - Failure
-        if: ${{ failure() }}
+        if: ${{ failure() && github.event_name == 'push' }}
         uses: rjstone/discord-webhook-notify@v1.0.4
         with:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
